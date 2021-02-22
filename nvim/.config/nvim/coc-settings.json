@@ -1,0 +1,8 @@
+{
+    "html.filetypes": ["html", "html.twig", "htmldjango.twig"],
+    "tsserver.formatOnType": false,
+    "javascript.showUnused": false,
+    "javascript.validate.enable": true,
+    "coc.preferences.formatOnSaveFiletypes": ["css", "Markdown"],
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
+}
