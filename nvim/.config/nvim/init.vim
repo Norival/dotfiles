@@ -41,7 +41,7 @@ Plug 'lumiliet/vim-twig'        " twig syntax
 Plug 'mattn/emmet-vim'          " support for emmet abbreviations
 Plug 'othree/html5.vim'         " html suppport
 Plug 'pangloss/vim-javascript'  " javascript support
-Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o', 'branch': 'master'}
+Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o', 'branch': 'master'}
 Plug 'tpope/vim-surround'       " edtit surroundings
 Plug 'StanAngeloff/php.vim'     " php support
 Plug 'vim-scripts/loremipsum'   " insert lorem text
