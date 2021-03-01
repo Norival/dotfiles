@@ -13,7 +13,6 @@ nmap <Leader>u :call phpactor#UseAdd()<CR>
 nmap <Leader>h :call phpactor#Hover()<CR>
 nmap <Leader>g :call phpactor#GotoDefinition()<CR>
 nmap <Leader>gh :call phpactor#GotoDefinitionHsplit()<CR>
-" nmap <Leader>n :call phpactor#ClassNew()<CR>
 nmap <Leader>pn :PhpactorClassNew<CR>
 nmap <Leader>pg :PhpactorGenerateAccessors<CR>
 

@@ -9,57 +9,46 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug '907th/vim-auto-save'          " auto save
 Plug 'airblade/vim-gitgutter'       " git signs
 Plug 'chrisbra/CheckAttach'         " check attachments in mails
-" Plug 'craigemery/vim-autotag'       " automatic updtae of tags file
+Plug 'dense-analysis/ale'           " async linting engine
+Plug 'habamax/vim-gruvbit'          " GruvBit colorscheme
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'             " fzf integration
 Plug 'junegunn/vim-easy-align'      " easy custom alignments
-Plug 'hzchirs/vim-material'         " material color scheme
-Plug 'mbbill/undotree'              " visualization for undo tree
+Plug 'kristijanhusak/vim-dadbod-completion'
+Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " completion
-" Plug 'psliwka/vim-smoothie'         " smooth scrolling with <C-d> etc
+Plug 'neoclide/jsonc.vim'
+Plug 'psliwka/vim-smoothie'         " smooth scrolling with <C-d> etc
 Plug 'tpope/vim-commentary'         " easy comments
+Plug 'tpope/vim-dadbod'
 Plug 'tpope/vim-fugitive'           " git integration
 Plug 'tpope/vim-obsession'          " automatic sessions handling
 Plug 'tpope/vim-surround'           " change tags
-Plug 'tpope/vim-vinegar'
-Plug 'dikiaap/minimalist'
-" Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-vinegar'            " better netrw
 
 " --> Language specifics plugins
 Plug 'brett-griffin/phpdocblocks.vim'
-Plug 'chr4/nginx.vim'           " nginx syntax
-Plug 'dbeniamine/todo.txt-vim'  " todotxt support
-Plug 'jalvesaq/Nvim-R'          " R support
-Plug 'lervag/vimtex'
-Plug 'mboughaba/i3config.vim'   " i3 config syntax
-Plug 'tmux-plugins/vim-tmux'    " tmux syntax
-Plug 'cespare/vim-toml'
-Plug 'fatih/vim-go'
+Plug 'chr4/nginx.vim'               " nginx syntax
+Plug 'dbeniamine/todo.txt-vim'      " todotxt support
+Plug 'jalvesaq/Nvim-R'              " R support
+Plug 'lervag/vimtex'                " LaTeX support
+Plug 'mboughaba/i3config.vim'       " i3 config syntax
+Plug 'tmux-plugins/vim-tmux'        " tmux syntax
+Plug 'cespare/vim-toml'             " toml support
 
 " --> Plugins for web development
-Plug 'alvan/vim-closetag'
+" Plug 'alvan/vim-closetag'
 Plug 'captbaritone/better-indent-support-for-php-with-html'
-Plug 'lumiliet/vim-twig'        " twig syntax
-Plug 'mattn/emmet-vim'          " support for emmet abbreviations
-Plug 'othree/html5.vim'         " html suppport
-Plug 'pangloss/vim-javascript'  " javascript support
+Plug 'lumiliet/vim-twig'            " twig syntax
+Plug 'mattn/emmet-vim'              " support for emmet abbreviations
+Plug 'othree/html5.vim'             " html suppport
+Plug 'pangloss/vim-javascript'      " javascript support
 Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o', 'branch': 'master'}
-Plug 'tpope/vim-surround'       " edtit surroundings
-Plug 'StanAngeloff/php.vim'     " php support
-Plug 'vim-scripts/loremipsum'   " insert lorem text
+Plug 'tpope/vim-surround'           " edtit surroundings
+Plug 'StanAngeloff/php.vim'         " php support
+Plug 'vim-scripts/loremipsum'       " insert lorem text
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'heavenshell/vim-jsdoc', {'tag': '1.0.0'}
-
-Plug 'dense-analysis/ale'       " lint engine
-
-Plug 'neoclide/jsonc.vim'
-" Plug 'vim-scripts/gruvbox'
-" Plug 'fenetikm/falcon'
-" Plug 'averak/laserwave.vim'
-Plug 'habamax/vim-gruvbit'
-Plug 'taniarascia/new-moon.vim'
-
-
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 " --> Other plugins
 " Plug 'rhysd/vim-grammarous'           " check grammar
@@ -122,30 +111,23 @@ set nofoldenable
 " Also switch on highlighting the last used search pattern.
 
 if (has("termguicolors"))
-  syntax on
-  set hlsearch
-  set termguicolors
+    syntax on
+    set hlsearch
+    set termguicolors
 endif
 set termguicolors
 
-" let g:material_style='oceanic'
-set background=dark
-" colorscheme vim-material
-" colorscheme minimalist
-" colorscheme gruvbox
-" colorscheme falcon
-" colorscheme laserwave
+" colorscheme
 colorscheme gruvbit
-" colorscheme new-moon
 
 " highlight current line
 set cursorline
 
-" always sho the gutter
+" always show the gutter
 set signcolumn=yes
 
 " Autogenerate tags from files in ~/.vim/doc/
-autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
+" autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
 
 " autosave
 " autocmd TextChanged,TextChangedI * silent write
@@ -156,18 +138,18 @@ autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
 
 " fill rest of line with characters
 function! FillLine(str)
-  " set tw to the desired total length
-  let tw = &textwidth
-  if tw==0 | let tw = 80 | endif
-  " strip trailing spaces first
-  .s/[[:space:]]*$//
-  " calculate total number of 'str's to insert
-  let reps = (tw - col("$")) / len(a:str)
-  " insert them, if there's room, removing trailing spaces (though forcing
-  " there to be one)
-  if reps > 0
-    .s/$/\=(' '.repeat(a:str, reps))/
-  endif
+    " set tw to the desired total length
+    let tw = &textwidth
+    if tw==0 | let tw = 80 | endif
+    " strip trailing spaces first
+    .s/[[:space:]]*$//
+    " calculate total number of 'str's to insert
+    let reps = (tw - col("$")) / len(a:str)
+    " insert them, if there's room, removing trailing spaces (though forcing
+    " there to be one)
+    if reps > 0
+        .s/$/\=(' '.repeat(a:str, reps))/
+    endif
 endfunction
 
 function! LinterStatus() abort
@@ -187,11 +169,9 @@ endfunction
 " mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let mapleader='!'
+let mapleader = '!'
 let maplocalleader = ","
 
-nmap <Leader>ol :match OverLength /\%81v.*/<CR>
-nmap <Leader>cc :match none<CR>
 set timeout ttimeoutlen=50
 imap jk <Esc>
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
@@ -222,8 +202,6 @@ imap <F12> <C-o>:call FillLine('*')<CR>jk
 nmap <F11> :call FillLine('-')<CR>
 imap <F11> <C-o>:call FillLine('-')<CR>jk
 
-imap càd c'est-à-dire
-
 map <A-b> :ls<CR>:buffer 
 map <A-B> :ls<CR>:bdelete
 
@@ -242,8 +220,7 @@ function! GitStatus()
     return printf('+%d ~%d -%d', a, m, r)
 endfunction
 
-
-" set statusline=%#StatusLine#
+" Custom status line
 set statusline=
 set statusline+=\ \[%n\]\ 
 set statusline+=%{FugitiveStatusline()}
@@ -257,19 +234,6 @@ set statusline+=%y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
 set statusline+=%{ObsessionStatus()}
-" set statusline+=%#PmenuSel#
-" set statusline+=%{StatuslineGit()}
-" set statusline+=%#LineNr#
-" set statusline+=\ %f
-" set statusline+=%m\
-" set statusline+=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-" set statusline+=%=
-" set statusline+=%#CursorColumn#
-" set statusline+=\ %y
-" set statusline+=\[%{&fileformat}\]
-" set statusline+=\ %p%%
-" set statusline+=\ %l:%c
-" set statusline+=\ 
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -289,33 +253,27 @@ set backupskip+=*.gpg
 set viminfo=
 
 augroup encrypted
-  au!
-  " Disable swap files, and set binary file format before reading the file
-  autocmd BufReadPre,FileReadPre *.gpg
-    \ setlocal noswapfile bin
-  " Decrypt the contents after reading the file, reset binary file format
-  " and run any BufReadPost autocmds matching the file name without the .gpg
-  " extension
-  autocmd BufReadPost,FileReadPost *.gpg
-    \ execute "'[,']!gpg --decrypt --default-recipient-self" |
-    \ setlocal nobin |
-    \ execute "doautocmd BufReadPost " . expand("%:r")
-  " Set binary file format and encrypt the contents before writing the file
-  autocmd BufWritePre,FileWritePre *.gpg
-    \ setlocal bin |
-    \ '[,']!gpg --encrypt --default-recipient-self
-  " After writing the file, do an :undo to revert the encryption in the
-  " buffer, and reset binary file format
-  autocmd BufWritePost,FileWritePost *.gpg
-    \ silent u |
-    \ setlocal nobin
+    au!
+    " Disable swap files, and set binary file format before reading the file
+    autocmd BufReadPre,FileReadPre *.gpg
+                \ setlocal noswapfile bin
+    " Decrypt the contents after reading the file, reset binary file format
+    " and run any BufReadPost autocmds matching the file name without the .gpg
+    " extension
+    autocmd BufReadPost,FileReadPost *.gpg
+                \ execute "'[,']!gpg --decrypt --default-recipient-self" |
+                \ setlocal nobin |
+                \ execute "doautocmd BufReadPost " . expand("%:r")
+    " Set binary file format and encrypt the contents before writing the file
+    autocmd BufWritePre,FileWritePre *.gpg
+                \ setlocal bin |
+                \ '[,']!gpg --encrypt --default-recipient-self
+    " After writing the file, do an :undo to revert the encryption in the
+    " buffer, and reset binary file format
+    autocmd BufWritePost,FileWritePost *.gpg
+                \ silent u |
+                \ setlocal nobin
 augroup END
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ctags settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap K <C-]>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -353,9 +311,9 @@ au filetype todo setlocal omnifunc=todo#Complete
 let g:Todo_txt_prefix_creation_date=1
 
 " auto save settings
-let g:auto_save = 0        " enable AutoSave on Vim startup
-let g:auto_save_silent = 1 " do not display the auto-save notification
-let g:auto_save_events = ["CursorHold"]
+" let g:auto_save = 0        " enable AutoSave on Vim startup
+" let g:auto_save_silent = 1 " do not display the auto-save notification
+" let g:auto_save_events = ["CursorHold"]
 
 " disable autosave for mail files
 augroup ft_mail
@@ -403,9 +361,6 @@ let g:ale_fix_on_save = 1
 
 let g:AutoPairsCenterLine = 0
 
-inoremap <C-n>; <C-o>A;
-nnoremap <C-n>; A;<Esc>
-
 " FZF settings
 nnoremap <silent> <C-f> :Files<CR>
 
@@ -428,13 +383,3 @@ endfunction
 inoremap <silent><expr> <c-space> coc#refresh()
 
 nmap <leader>ac  <Plug>(coc-codeaction)
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-" if has('nvim-0.4.0') || has('patch-8.2.0750')
-"   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-"   nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-"   inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-"   inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-"   vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-"   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-" endif
