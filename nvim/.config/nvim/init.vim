@@ -363,6 +363,8 @@ let g:AutoPairsCenterLine = 0
 
 " FZF settings
 nnoremap <silent> <C-f> :Files<CR>
+nnoremap <silent> <C-g> :GFiles<CR>
+nnoremap <silent> <C-a> :Ag<CR>
 
 " CoC configuration ************************************************************
 
